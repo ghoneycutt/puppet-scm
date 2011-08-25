@@ -15,7 +15,7 @@
 
 class cloudera-hue::engine::config inherits cloudera-hue::engine::params {
   file { "/etc/hue/hue.ini":
-    content => template('hue/hue.ini.erb'),
-    require => Package["hue-common"],
+    content => template('cloudera-hue/hue.ini.erb'),
+    require => Package[$package_names],
   }
 }

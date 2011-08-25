@@ -17,14 +17,14 @@ class cloudera-hue::engine::params (
   $hue_host, $hue_http_port, $secret_key, 
   $namenode_host, $namenode_port, $namenode_thrift_port,
   $jobtracker_host, $jobtracker_thrift_port,
+  $flume_master_host=undef, $flume_master_port=undef,
   $enterprise=false, $firehose_port=undef,
   $timezone=$timezone,
   $flume_master_host=undef, $flume_master_port=undef)
 {
-  if ($enterprise) {
-    $package_list = [ "hue", "hue-common", "hue-flume", "hue-beancounter", "hue-cmon",
-                      "hue-cloudera-libs" ]
-  } else { 
-    $package_list = [ "hue", "hue-common" ]
+  $package_names = $enterprise ? {
+    true    => [ "hue", "hue-common", "hue-flume", "hue-beancounter", "hue-cmon",
+                 "hue-cloudera-libs" ],
+    default => [ "hue", "hue-common" ],
   }
 }

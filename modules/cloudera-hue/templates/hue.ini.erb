@@ -154,9 +154,9 @@ thrift_port=<%= namenode_thrift_port %>
 
 [[[default]]]
 # Enter the host on which you are running the Hadoop JobTracker
-jobtracker_host=<%= hadoop_jobtracker_host %>
+jobtracker_host=<%= jobtracker_host %>
 # Thrift plug-in port for the JobTracker
-thrift_port=<%= hadoop_jobtracker_thrift_port %>
+thrift_port=<%= jobtracker_thrift_port %>
 
 
 <% if flume_master_host != :undef and flume_master_port != :undef %>

@@ -18,7 +18,7 @@ class cloudera-hue::hadoop-plugins::config
 
   if ($enterprise) {
     file { "/etc/cloudera/cmon-agent.ini":
-      content => template('hue/cmon-agent.ini.erb'),
+      content => template('cloudera-hue/cmon-agent.ini.erb'),
       require => Package["hue-cmon-plugin"],
     }
   }
