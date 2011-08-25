@@ -13,10 +13,7 @@
 #  License.
 #
 
-class cdh {
-  include hadoop
-  include hbase
-  include hive
-  include zookeeper
-  include pig
+class cdh::pig {
+  include cdh::pig::config
+  include cdh::pig::install
 }

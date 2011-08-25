@@ -13,10 +13,6 @@
 #  License.
 #
 
-class cdh {
-  include hadoop
-  include hbase
-  include hive
-  include zookeeper
-  include pig
+class cdh::pig::params {
+  $package_names = [ "hadoop-pig" ]
 }

@@ -13,10 +13,11 @@
 #  License.
 #
 
-class cdh {
-  include hadoop
-  include hbase
-  include hive
-  include zookeeper
-  include pig
+class cdh::pig::config inherits cdh::pig::params {
+  file { "/etc/pig/pig.properties":
+    source  => "puppet:///modules/cdh/pig.properties",
+    require => Package[$package_names],
+    owner   => "root", 
+    mode    => "755",   
+  }
 }
