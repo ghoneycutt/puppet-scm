@@ -14,11 +14,15 @@
 # 
 
 class cloudera-hue::engine::params (
-  $hue_host, $hue_http_port, $secret_key, 
-  $namenode_host, $namenode_port, $namenode_thrift_port,
-  $jobtracker_host, $jobtracker_thrift_port,
-  $flume_master_host=undef, $flume_master_port=undef,
-  $enterprise=false, $firehose_port=undef,
+  $secret_key,
+  $hue_host="localhost", $hue_http_port="8088", 
+  $db_name="hue", $db_user="hue", $db_pass,
+  $namenode_host="localhost", $namenode_port="8020", $namenode_thrift_port="10090",
+  $jobtracker_host="localhost", $jobtracker_thrift_port="9290",
+  $enterprise=false, 
+  $cmon_db_name="cmon_db",
+  $firehose_port="9999",
+  $oozie_host="localhost", $oozie_http_port="11000",
   $timezone=$timezone,
   $flume_master_host=undef, $flume_master_port=undef)
 {

@@ -13,12 +13,6 @@
 #  License. 
 # 
 
-class cloudera-hue::engine::service inherits cloudera-hue::engine::params {
-  service { "hue":
-    ensure => running,
-    hasstatus => true,
-    hasrestart => true,
-    subscribe => File["/etc/hue/hue.ini"],
-    require => [ Package[$package_names], File["/etc/hue/hue.ini"] ],
-  }
+class cdh::oozie::server::params ($oozie_host=undef, $oozie_http_port="11000") {
+  $package_names = [ "oozie" ]
 }

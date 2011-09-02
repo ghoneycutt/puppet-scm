@@ -14,7 +14,7 @@
 # 
 
 class cloudera-hue::hadoop-plugins::params (
-  $enterprise=false, $hue_host=undef, $firehose_port=undef) {
+  $enterprise=false, $hue_host="localhost", $firehose_port="9999") {
 
   if ($enterprise and (!$hue_host or !$firehose_port)) { 
     fail("Configuring the hue cmon plugin requires that hue_host and firehose_port be set.")

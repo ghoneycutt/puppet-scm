@@ -13,11 +13,8 @@
 #  License.
 #
 
-class cdh {
-  include hadoop
-  include hbase
-  include hive
-  include zookeeper
-  include pig
-  include oozie
+class cdh::oozie::server {
+  include cdh::oozie::server::config
+  include cdh::oozie::server::install
+  include cdh::oozie::server::service
 }

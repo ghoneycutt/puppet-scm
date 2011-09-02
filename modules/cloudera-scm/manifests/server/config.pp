@@ -13,12 +13,10 @@
 #  License. 
 # 
 
-class cloudera-hue::engine::service inherits cloudera-hue::engine::params {
-  service { "hue":
-    ensure => running,
-    hasstatus => true,
-    hasrestart => true,
-    subscribe => File["/etc/hue/hue.ini"],
-    require => [ Package[$package_names], File["/etc/hue/hue.ini"] ],
+class cloudera-scm::server::config inherits cloudera-scm::server::params {
+  exec { "scm-install-schema":
+    command => "/usr/share/cmf/schema/scm_prepare_mysql.sh '$db_name' '$db_user' '$db_pass'",
+    require => Package[$package_names],
+    unless  => "/usr/bin/mysqlcheck -s '$db_name'",
   }
 }

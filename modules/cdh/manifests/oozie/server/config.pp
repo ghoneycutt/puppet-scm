@@ -13,11 +13,13 @@
 #  License.
 #
 
-class cdh {
-  include hadoop
-  include hbase
-  include hive
-  include zookeeper
-  include pig
-  include oozie
+class cdh::oozie::server::config inherits cdh::oozie::server::params {
+  file { "/etc/oozie/oozie-env.sh":
+    content => template ( "cdh/oozie/oozie-env.sh.erb" ),
+    owner   => "root",
+    group   => "root",
+    mode    => "644",
+    require => Package[$package_names],
+    notify  => Service["oozie"],
+  }
 }

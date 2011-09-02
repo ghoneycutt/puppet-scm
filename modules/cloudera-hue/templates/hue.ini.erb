@@ -90,15 +90,15 @@ http_500_debug_mode=0
 [[database]]
 
 # Database engine, eg. postgresql, mysql, sqlite3, or oracle
-## engine=sqlite3
+engine=mysql
 
 # Database host information
-## host=
-## port=
-## user=
-## password=
+host=localhost
+port=3306
+user=<%= db_user %>
+password=<%= db_pass %>
 # For sqlite3, filename; for other backends, the name of the database
-## name=
+name=<%= db_name %>
 
 
 # Configuration options for connecting to an external SMTP server

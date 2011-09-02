@@ -13,12 +13,16 @@
 #  License. 
 # 
 
-class cloudera-hue::engine::service inherits cloudera-hue::engine::params {
-  service { "hue":
-    ensure => running,
-    hasstatus => true,
-    hasrestart => true,
-    subscribe => File["/etc/hue/hue.ini"],
-    require => [ Package[$package_names], File["/etc/hue/hue.ini"] ],
+# Note that this class assumes that mysqld is already installed and running, and
+# that the mysql jdbc connector is present.  You should add them to the list of
+# requires, however they are defined in your installation.
+
+class cloudera-scm::server::service inherits cloudera-scm::server::params {
+  service { "cloudera-scm-server":
+    ensure  => running,
+    enable  => true,
+    require => [ Package[$package_names], Exec["scm-install-schema"] ]
+,
   }
 }
+

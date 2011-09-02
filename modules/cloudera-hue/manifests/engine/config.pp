@@ -16,6 +16,44 @@
 class cloudera-hue::engine::config inherits cloudera-hue::engine::params {
   file { "/etc/hue/hue.ini":
     content => template('cloudera-hue/hue.ini.erb'),
-    require => Package[$package_names],
+    mode    => "644",
+    owner   => "root",
+    group   => "root",
+    require => [ Package[$package_names], Exec["hue-init-db"] ],
+    notify  => Service["hue"],
+  }
+
+  exec { "hue-init-db":
+    command     => "/usr/local/bin/hue_init_db.sh '$db_name' '$db_user' '$db_pass'",
+    require     => File["/usr/local/bin/hue_init_db.sh"],
+    unless      => "/usr/bin/mysqlcheck -s '$db_name'",
+    refreshonly => true,
+    subscribe   => Package["hue"],
+  }
+
+  file { "/usr/local/bin/hue_init_db.sh":
+    source => "puppet:///modules/cloudera-hue/hue_init_db.sh",
+    mode   => "755",
+    owner  => "root",
+    group  => "root",
+  }
+
+  if ($enterprise) {
+    exec { "hue-cmon-init-db":
+      command     => "/usr/local/bin/hue_init_db.sh '$cmon_db_name' '$db_user' '$db_pass'",
+      require     => File["/usr/local/bin/hue_init_db.sh"],
+      unless      => "/usr/bin/mysqlcheck -s '$cmon_db_name'",
+      refreshonly => true,
+      subscribe   => Package["hue-cmon"],
+    }
+  
+    file { "/etc/hue/cmon.conf":
+      content => template("cloudera-hue/cmon.conf.erb"),
+      mode    => "644",
+      owner   => "root",
+      group   => "root",
+      require => [ Package[$package_names], Exec["hue-cmon-init-db"] ],
+      notify  => Service["hue"],
+    }
   }
 }

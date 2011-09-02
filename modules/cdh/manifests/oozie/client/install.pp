@@ -13,11 +13,8 @@
 #  License.
 #
 
-class cdh {
-  include hadoop
-  include hbase
-  include hive
-  include zookeeper
-  include pig
-  include oozie
+class cdh::oozie::client::install inherits cdh::oozie::client::params {
+  package { $package_names:
+    ensure => latest,
+  }
 }

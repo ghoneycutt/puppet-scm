@@ -13,6 +13,6 @@
 #  License. 
 # 
 
-class cloudera-scm::server::params {
+class cloudera-scm::server::params ($db_name="cmf", $db_user="cmf", $db_pass) {
   $package_names = [ "cloudera-scm-server" ]
 }

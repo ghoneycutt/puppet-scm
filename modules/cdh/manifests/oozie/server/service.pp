@@ -13,11 +13,11 @@
 #  License.
 #
 
-class cdh {
-  include hadoop
-  include hbase
-  include hive
-  include zookeeper
-  include pig
-  include oozie
+class cdh::oozie::server::service inherits cdh::oozie::server::params {
+  service { "oozie": 
+    ensure     => running,
+    require    => [ Package[$package_names], File["/etc/oozie/oozie-env.sh"] ],
+    hasrestart => true,
+    hasstatus  => true,
+  }
 }
