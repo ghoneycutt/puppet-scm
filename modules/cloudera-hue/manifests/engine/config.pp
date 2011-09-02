@@ -23,12 +23,14 @@ class cloudera-hue::engine::config inherits cloudera-hue::engine::params {
     notify  => Service["hue"],
   }
 
+  $adm_pass_cmdline = $db_admin_pass ? {
+    undef   => "",
+    default => "-p'$db_admin_pass'",
+  }
   exec { "hue-init-db":
-    command     => "/usr/local/bin/hue_init_db.sh '$db_name' '$db_user' '$db_pass'",
+    command     => "/usr/local/bin/hue_init_db.sh -u '$db_admin_user' $adm_pass_cmdline '$db_name' '$db_user' '$db_pass'",
     require     => File["/usr/local/bin/hue_init_db.sh"],
-    unless      => "/usr/bin/mysqlcheck -s '$db_name'",
-    refreshonly => true,
-    subscribe   => Package["hue"],
+    unless      => "/usr/bin/mysqlcheck -u '$db_admin_user' $adm_pass_cmdline -s '$db_name'",
   }
 
   file { "/usr/local/bin/hue_init_db.sh":
@@ -40,11 +42,10 @@ class cloudera-hue::engine::config inherits cloudera-hue::engine::params {
 
   if ($enterprise) {
     exec { "hue-cmon-init-db":
-      command     => "/usr/local/bin/hue_init_db.sh '$cmon_db_name' '$db_user' '$db_pass'",
+      command     => "/usr/local/bin/hue_init_db.sh -u '$db_admin_user' $adm_pass_cmdline '$cmon_db_name' '$db_user' '$db_pass'",
+      environment => [ "MYSQL_USER=$db_admin_user", "MYSQL_PASSWORD=$db_admin_pass" ],
       require     => File["/usr/local/bin/hue_init_db.sh"],
-      unless      => "/usr/bin/mysqlcheck -s '$cmon_db_name'",
-      refreshonly => true,
-      subscribe   => Package["hue-cmon"],
+      unless      => "/usr/bin/mysqlcheck -u '$db_admin_user' $adm_pass_cmdline -s '$db_name'",
     }
   
     file { "/etc/hue/cmon.conf":

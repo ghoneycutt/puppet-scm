@@ -14,9 +14,13 @@
 # 
 
 class cloudera-scm::server::config inherits cloudera-scm::server::params {
+  $adm_pass_cmdline = $db_admin_pass ? {
+    undef   => "",
+    default => "-p'$db_admin_pass'",
+  }
   exec { "scm-install-schema":
-    command => "/usr/share/cmf/schema/scm_prepare_mysql.sh '$db_name' '$db_user' '$db_pass'",
-    require => Package[$package_names],
-    unless  => "/usr/bin/mysqlcheck -s '$db_name'",
+    command     => "/usr/share/cmf/schema/scm_prepare_mysql.sh -u '$db_admin_user' $adm_pass_cmdline '$db_name' '$db_user' '$db_pass'",
+    require     => Package[$package_names],
+    unless      => "/usr/bin/mysqlcheck -u '$db_admin_user' $adm_pass_cmdline -s '$db_name'",
   }
 }

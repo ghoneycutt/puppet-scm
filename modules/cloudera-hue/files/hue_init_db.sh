@@ -43,7 +43,7 @@ while true; do
             shift 2
             ;;
         -p|--passwd)
-            db_passwd="$2"
+            db_pass="$2"
             shift 2
             ;;
         --)

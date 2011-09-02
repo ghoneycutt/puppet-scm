@@ -2,6 +2,12 @@
 
 ## Description
 Contains classes to install and configure the HUE server, as well as the associated hadoop plugins.  Can optionally configure CMON support in HUE.
+Note that, in order for this module to work, you will have to ensure that:
+* mysqld is installed and running on your scm server 
+* sun jre version 6 or greater is installed
+* the mysql jdbc connector is installed
+* your package manager is configured with a repository containing the cdh
+  and, optionally, cloudera enterprise packages
 
 ## Usage
 

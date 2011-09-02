@@ -14,9 +14,10 @@
 # 
 
 class cloudera-hue::engine::params (
-  $secret_key,
+  $secret_key, $db_pass, 
   $hue_host="localhost", $hue_http_port="8088", 
-  $db_name="hue", $db_user="hue", $db_pass,
+  $db_name="hue", $db_user="hue", 
+  $db_admin_user="root", $db_admin_pass=undef,
   $namenode_host="localhost", $namenode_port="8020", $namenode_thrift_port="10090",
   $jobtracker_host="localhost", $jobtracker_thrift_port="9290",
   $enterprise=false, 

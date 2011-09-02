@@ -2,6 +2,16 @@
 
 ## Description
 Installs and configures the agent and server components of Cloudera SCM.
+Note that, in order for this module to work, you will have to ensure that:
+* mysqld is installed and running on your scm server 
+* sun jre version 6 or greater is installed
+* the mysql jdbc connector is installed
+* your package manager is configured with a repository containing the
+  cloudera enterprise packages
+
+mysql server, installed, running, no root password
+mysql jdbc connector
+repositories 
 
 ## Usage
 
