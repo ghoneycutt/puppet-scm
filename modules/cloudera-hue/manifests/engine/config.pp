@@ -43,9 +43,8 @@ class cloudera-hue::engine::config inherits cloudera-hue::engine::params {
   if ($enterprise) {
     exec { "hue-cmon-init-db":
       command     => "/usr/local/bin/hue_init_db.sh -u '$db_admin_user' $adm_pass_cmdline '$cmon_db_name' '$db_user' '$db_pass'",
-      environment => [ "MYSQL_USER=$db_admin_user", "MYSQL_PASSWORD=$db_admin_pass" ],
       require     => File["/usr/local/bin/hue_init_db.sh"],
-      unless      => "/usr/bin/mysqlcheck -u '$db_admin_user' $adm_pass_cmdline -s '$db_name'",
+      unless      => "/usr/bin/mysqlcheck -u '$db_admin_user' $adm_pass_cmdline -s '$cmon_db_name'",
     }
   
     file { "/etc/hue/cmon.conf":
