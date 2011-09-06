@@ -32,6 +32,15 @@ class cloudera-hue::engine::config inherits cloudera-hue::engine::params {
     require     => File["/usr/local/bin/hue_init_db.sh"],
     unless      => "/usr/bin/mysqlcheck -u '$db_admin_user' $adm_pass_cmdline -s '$db_name'",
   }
+  
+  exec { "hue-sync-db":
+    command     => "/usr/share/hue/build/env/bin/hue syncdb --noinput",
+    require     => [ Package[$package_names], Exec["hue-init-db"], File["/etc/hue/hue.ini"] ],
+    refreshonly => true,
+    subscribe   => Exec["hue-init-db"],
+    unless      => "/usr/bin/mysqlcheck -u '$db_admin_user' $adm_pass_cmdline -s '$db_name.django_site'",
+    notify      => Service["hue"],
+  }
 
   file { "/usr/local/bin/hue_init_db.sh":
     source => "puppet:///modules/cloudera-hue/hue_init_db.sh",
