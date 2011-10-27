@@ -14,7 +14,7 @@
 #
 
 class cdh::oozie::server::service inherits cdh::oozie::server::params {
-  service { "oozie": 
+  service { "oozie":
     ensure     => running,
     require    => [ Package[$package_names], File["/etc/oozie/oozie-env.sh"] ],
     hasrestart => true,
